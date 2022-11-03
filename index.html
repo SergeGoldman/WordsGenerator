@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
+<title>Песочница</title>
+<!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+<body>
+<style type="text/css">
+    * {
+        font-family: system-ui;
+        color: #e0e0e0;
+    }
+
+    body {
+        background: #353435;
+    }
+
+    #generator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #paramContainer {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    #param {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #param, textarea, input, label {
+        margin: 10px;
+    }
+
+    #countSymbols, #countGen {
+        width: 50px;
+    }
+
+    #counts {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input{
+        background-color: #353435;
+        /* background-color: #3b3a3b; */
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .buttons:hover {
+        cursor: pointer;
+        /* background-color: #353435; */
+        background-color: #3b3a3b;
+    }
+
+    #param, textarea {
+        background-color: #3b3a3b;
+        border-radius: 15px;
+        padding: 10px;
+    }
+
+    #param, textarea, input {
+        border: 1px solid #494849;
+    }
+</style>
+
+<div id="generator">
+    <div id="paramContainer">
+        <div id="param">
+            <div id="counts">
+                <span><input type="number" id="countSymbols" value="6"><label for="countSymbols">Количество символов</label></span>
+                <span><input type="number" id="countGen" value="15"><label for="countGen">Количество комбинаций</label></span>
+            </div>
+            <div id="buttons">
+                <input type="button" name="runGen" id="buttonRunGen" class="buttons" value="Сгенерировать">
+                <input type="button" name="clear" id="buttonClear" class="buttons" value="Очистить">
+            </div>
+        </div>
+    </div>
+
+    <div id="result">
+        <textarea name="result" id="resultText" cols="40" rows="18" spellcheck="false"></textarea>
+    </div>
+</div>
+
+<script>
+    let body = document.querySelector('body');
+
+    ///////////////////////////////////////////////////////////
+    //Генератор должен генерировать слоги.
+    //Слово может начинаться, как с гласной, так и с согласной.
+    //Рядом может стоять не более двух символов одной группы.
+    //Количество символов определяется пользователем.
+    ///////////////////////////////////////////////////////////
+
+    let vowels = ['a','e','i','o','u','y']
+    let consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','z']
+    let abc = [vowels, consonants]
+
+    function generationWords() {
+        resultText.value = ''
+
+        for (numGen = 0; numGen < countGen.value; numGen++) {
+            generationWord()
+        }
+    }
+
+    function generationWord() {
+        let word = ''
+        let rundomSymbol
+
+        for (i = 0; i < countSymbols.value; i++) {
+            if (i > 0) {
+                if (vowels.indexOf(word[word.length - 1]) > -1) { //Если последная буква гласная
+                    for (j = 0; j < getRandomIntRange(1, 2); j++) {
+                        word = word + consonants[getRandomInt(consonants.length)]
+                    }
+                } else { //Если последная буква согласная
+                    for (j = 0; j < getRandomIntRange(1, 2); j++) {
+                        word = word + vowels[getRandomInt(vowels.length)]
+                    }
+                }
+            } else {
+                let randAbc = abc[getRandomInt(abc.length)]
+                let countRandSymbol
+
+                if (randAbc == vowels) {
+                    countRandSymbol = getRandomIntRange(1, 2)
+                } else {
+                    countRandSymbol = 1
+                }
+
+                for (j = 0; j < countRandSymbol; j++) {
+                    word = word + randAbc[getRandomInt(randAbc.length)]
+                }
+            }
+        }
+
+        resultText.value = resultText.value + word + '\n'
+    }
+
+    function clearResult() {
+        resultText.value = ''
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function getRandomIntRange(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    buttonRunGen.onclick = generationWords
+    buttonClear.onclick = clearResult
+
+
+    
+
+</script>
+</body>
+</html>
