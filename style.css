@@ -1,0 +1,61 @@
+* {
+  font-family: system-ui;
+  color: #e0e0e0;
+}
+
+body {
+  background: #353435;
+}
+
+#generator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#paramContainer {
+  display: flex;
+  justify-content: flex-start;
+}
+
+#param {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#param, textarea, input, label {
+  margin: 10px;
+}
+
+#countSymbols, #countGen {
+  width: 50px;
+}
+
+#counts {
+  display: flex;
+  flex-direction: column;
+}
+
+input{
+  background-color: #353435;
+  /* background-color: #3b3a3b; */
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.buttons:hover {
+  cursor: pointer;
+  /* background-color: #353435; */
+  background-color: #3b3a3b;
+}
+
+#param, textarea {
+  background-color: #3b3a3b;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+#param, textarea, input {
+  border: 1px solid #494849;
+}
